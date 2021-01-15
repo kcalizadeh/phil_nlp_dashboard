@@ -2,6 +2,20 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 
+import plotly.express as px
+import pickle
+import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
+from tensorflow.keras.models import load_model
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.pipeline import make_pipeline
+
+from keras.preprocessing.sequence import pad_sequences
+
+import lime
+from lime import lime_text
+from lime.lime_text import LimeTextExplainer
+
 from app import app, server
 from tabs import about, bibliography, classifier, contact, stats, w2v
 

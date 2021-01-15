@@ -2,8 +2,6 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 
-# from app import app
-
 layout = [dcc.Markdown("""
 ### Intro asd
 Marin County California is one of the most expensive residential real estate markets in the country.  It is also
