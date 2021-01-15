@@ -23,7 +23,7 @@ df = pd.read_csv('model_data/phil_nlp.csv')
 search_bar = html.Div(id="w2v-bar-container", children=
     [
         dcc.Dropdown(id="stats-option", 
-                    options=get_dropdown_list())
+                    options=get_dropdown_list_stats())
     ])
 
 classifier_dict = {}
@@ -53,7 +53,7 @@ layout = html.Div(
             [
                 dbc.Col(html.Div([
                       dcc.Dropdown(id="stats-selection_1", 
-                                  options=get_dropdown_list(),
+                                  options=get_dropdown_list_stats(),
                                   style={'width': '90%'},
                                   placeholder='Start typing to search...'),  
                       dcc.Checklist(id='stats-options_1',
@@ -66,7 +66,7 @@ layout = html.Div(
                       ])),
                 dbc.Col(html.Div([
                       dcc.Dropdown(id="stats-selection_2", 
-                                  options=get_dropdown_list(),
+                                  options=get_dropdown_list_stats(),
                                   style={'width': '90%'},
                                   placeholder='Start typing to search...'),  
                       dcc.Checklist(id='stats-options_2',

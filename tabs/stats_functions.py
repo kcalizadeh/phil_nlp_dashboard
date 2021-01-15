@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 import string
 import re
 
-def get_dropdown_list():
+def get_dropdown_list_stats():
     dropdown_list = [
       {'label': 'Plato', 'value': 'plato'},
       {'label': 'Aristotle', 'value': 'aristotle'},
