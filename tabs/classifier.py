@@ -40,10 +40,10 @@ class Padder(BaseEstimator, TransformerMixin):
         X = pad_sequences(X, maxlen=self.maxlen)
         return X
 
-model_path = 'model_data\\NN_weights_epoch_09_0.7928.hdf5'
+model_path = 'model_data\classification_models\\NN_weights_epoch_09_0.7928.hdf5'
 model = load_model(model_path)
 
-with open('model_data\gru_tokenizer.pkl', 'rb') as f:
+with open('model_data\classification_models\gru_tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
 
 # set up classification explanation pipeline
@@ -64,23 +64,23 @@ school_label_dict = {'analytic': 0,
  'rationalism': 9}
 
 # search bar object
-search_bar = html.Div(id="search-bar-container", children=
+search_bar = html.Div(id="classification-bar-container", children=
     [
-        dbc.Input(id="search-bar", placeholder="enter text to classify", type="text"),
-        dbc.Button("SUBMIT", id="search-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
+        dbc.Input(id="classification-bar", placeholder="enter text to classify", type="text"),
+        dbc.Button("SUBMIT", id="classification-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
     ])
 
 
 layout = html.Div([
     html.H1("Text Classification"),
     search_bar,
-    html.Div(id="search-bar-output", children=[])  
+    html.Div(id="classification-bar-output", children=[])  
 ])
 
 # callback for search bar
-@app.callback(Output(component_id="search-bar-output", component_property="children"),
-              [Input(component_id="search-bar-submit-button", component_property="n_clicks")],
-              [State(component_id="search-bar", component_property="value")])
+@app.callback(Output(component_id="classification-bar-output", component_property="children"),
+              [Input(component_id="classification-bar-submit-button", component_property="n_clicks")],
+              [State(component_id="classification-bar", component_property="value")])
 def generate_explainer_html(n_clicks, text):
     empty_obj = html.Iframe(
         srcDoc='''<div>Enter input text to see LIME explanations.</div>''',
@@ -93,7 +93,8 @@ def generate_explainer_html(n_clicks, text):
         return empty_obj
     else:
         class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
-        explainer = lime_text.LimeTextExplainer(class_names=class_names)
+        explainer = lime_text.LimeTextExplainer(class_names=class_names,
+                                                bow=False)
         exp = explainer.explain_instance(text, 
                                         pipeline.predict, 
                                         num_features=10, 
@@ -102,7 +103,7 @@ def generate_explainer_html(n_clicks, text):
         obj = html.Iframe(
             srcDoc=exp.as_html(),
             width='100%',
-            height='800px'
+            height='800px',
             style={'border': '2px #d3d3d3 solid'},
         )
         return obj
