@@ -9,6 +9,7 @@ def get_dropdown_list_w2v():
       {'label': 'Phenomenology', 'value': 'phenomenology'},
       {'label': 'German Idealism', 'value': 'german_idealism'},
       {'label': 'Communism', 'value': 'communism'},
-      {'label': 'Capitalism', 'value': 'capitalism'}
+      {'label': 'Capitalism', 'value': 'capitalism'},
+      {'label': 'All Texts', 'value': 'all'}
       ]
     return dropdown_list

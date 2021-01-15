@@ -5,6 +5,20 @@ from nltk import FreqDist
 from nltk.corpus import stopwords
 import string
 import re
+import plotly.express as px 
+import pandas as pd
+
+stopwords_list = stopwords.words('english') + list(string.punctuation) 
+stopwords_list += ['“','”','...',"''",'’','``', "'", "‘"]
+custom_stopwords = ['–', 'also', 'something', 'cf', 'thus', 'two', 'now', 'would', 
+                    'make', 'eb', 'u', 'well', 'even', 'said', 'eg', 'us',
+                    'n', 'sein', 'e', 'da', 'therefore', 'however', 'would', 
+                    'thing', 'must', 'merely', 'way', 'since', 'latter', 'first',
+                    'B', 'mean', 'upon', 'yet', 'cannot', 'c', 'C', 'let', 'may', 
+                    'might', "'s", 'b', 'ofthe', 'p.', '_', '-', 'eg', 'e.g.',
+                    'ie', 'i.e.', 'f', 'l', "n't", 'e.g', 'i.e', '—', '--', 
+                    'hyl', 'phil', 'one', 'another', 'could', 'come', 'things', 'thing',
+                    'else', 'every'] + stopwords_list
 
 def get_dropdown_list_stats():
     dropdown_list = [
@@ -111,3 +125,21 @@ def get_num_unique_words(input, df, classifier_dict):
       word_list.append(word)
   num_unique_words = len(set(word_list))
   return num_unique_words, num_words
+
+def plot_word_frequency(input, df, classifier_dict):
+  word_list = []
+  for sentence in df[df[classifier_dict[input]]==input]['gensim_tokenized'][:50]:
+    for word in sentence:
+      word_list.append(word)
+  cleaned_words = [x.lower() for x in word_list if x.lower() not in custom_stopwords]
+  freq_dist = FreqDist(cleaned_words)
+  freq_dict = {'words': [x[0] for x in freq_dist.most_common(10)], 
+              'frequency': [x[1] for x in freq_dist.most_common(10)]}
+  freq_df = pd.DataFrame(freq_dict)
+  fig = px.bar(freq_df,
+              x='words',
+              y='frequency')
+  fig.update_xaxes(title_text='Words')
+  fig.update_yaxes(title_text='Count')
+  fig.update_layout(title_text=f'{input.title()} Word Frequency Chart', title_x=0.5)
+  return fig
