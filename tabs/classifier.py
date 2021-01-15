@@ -97,7 +97,8 @@ def generate_explainer_html(n_clicks, n_submit, text):
                 
             class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
             explainer = lime_text.LimeTextExplainer(class_names=class_names,
-                                                    bow=False)
+                                                    bow=False,
+                                                    split_expression=r'[\s+|\.\s+|,\s+]')
             exp = explainer.explain_instance(text, 
                                             pipeline.predict, 
                                             num_features=10, 
@@ -111,4 +112,4 @@ def generate_explainer_html(n_clicks, n_submit, text):
             )
             return obj
         except:
-            print('Sorry, something went wrong.')
+            return 'Sorry, something went wrong.'
