@@ -2,21 +2,81 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import pandas as pd
+from dash.dependencies import Input, Output, State
+import matplotlib.pyplot as plt
+import wordcloud
+import nltk 
+nltk.download('stopwords')
+from nltk import FreqDist
+from nltk.corpus import stopwords
+import string
+import plotly.express as px
+
 
 from app import app
+from tabs.stats_functions import make_word_cloud
 
-layout = [dcc.Markdown("""
-### Intro23
-Marin County California is one of the most expensive residential real estate markets in the country.  It is also
-one of the most competitive markets with more than 45% of all single-family homes in 2018
-receiving multiple offers.  How does a buyer or buyer's agent determine the optimal price to bid on a home -
-a price high enough to win the bidding war, yet not too high over the next highest bid.  Essentially it is
-a classic auction problem.
-This web app enables the user to determine the predicted price to pay for a home facing a bidding a war.
-The predicted price is based on historical data from 2015 - 2019 for all single-family homes sold in Marin
-receiving two or more offers.  The user can select the area, number of bedrooms, number of baths, number of
-expected offers and listing price and the app will provide the predicted sales price.
-As a rule of thumb, real estate agents have used anywhere from 2 to 3 percent per offer to determine the
-price to pay in a bidding war.  For example, if there are 3 offers the bid should be anywhere from 6% to
-9% over the list price.
-""")]
+def make_word_cloud(input, df, classifier, stopwords=stopwords.words('english')):
+    text = ''
+    for sentence in df[df[classifier[input]]==input]['sentence_str']:
+      text += sentence
+    cloud = wordcloud.WordCloud(width=500, 
+                            height=400, 
+                            background_color='#D1D1D1', 
+                            max_words=30, 
+                            stopwords=stopwords, 
+                            color_func=lambda *args, **kwargs: (95,95,95)).generate(text)
+    return cloud
+
+df = pd.read_csv('model_data/phil_nlp.csv')
+
+search_bar = html.Div(id="w2v-bar-container", children=
+    [
+        dbc.Input(id="stats-text-bar", placeholder="", type="text", n_submit=0),
+        dbc.Button("SUBMIT", id="stats-submit-button", color="primary", className="mr-1", n_clicks=0)
+    ])
+
+classifier_dict = {}
+for author in df['author'].unique():
+  classifier_dict[author] = 'author'
+for title in df['title'].unique():
+  classifier_dict[title] = 'title'
+for school in df['school'].unique():
+  classifier_dict[school] = 'school'
+
+stopwords_list = stopwords.words('english') + list(string.punctuation) 
+stopwords_list += ['“','”','...',"''",'’','``', "'", "‘"]
+custom_stopwords = ['–', 'also', 'something', 'cf', 'thus', 'two', 'now', 'would', 
+                    'make', 'eb', 'u', 'well', 'even', 'said', 'eg', 'us',
+                    'n', 'sein', 'e', 'da', 'therefore', 'however', 'would', 
+                    'thing', 'must', 'merely', 'way', 'since', 'latter', 'first',
+                    'B', 'mean', 'upon', 'yet', 'cannot', 'c', 'C', 'let', 'may', 
+                    'might', "'s", 'b', 'ofthe', 'p.', '_', '-', 'eg', 'e.g.',
+                    'ie', 'i.e.', 'f', 'l', "n't", 'e.g', 'i.e', '—', '--', 
+                    'hyl', 'phil', 'one', 'another', 'could', 'come'] + stopwords_list
+
+layout = html.Div([
+    html.H1("Text Statistics"),
+    html.H3("Enter the School, Author, or Text you'd like to analyze"),
+    search_bar,
+    html.Div(id="stats-output", children=[])
+])
+
+# callback for search bar
+@app.callback(Output(component_id="stats-output", component_property="children"),
+              [Input(component_id="stats-submit-button", component_property="n_clicks"),
+              Input(component_id="stats-text-bar", component_property="n_submit")],
+              [State(component_id="stats-text-bar", component_property="value")])
+def generate_stats(n_clicks, n_submit, text, df=df, classifier_dict=classifier_dict):
+    if n_clicks < 1 and n_submit < 1:
+      return None
+    else:
+      try:
+          cloud = make_word_cloud(input=text, 
+                                        df=df, 
+                                        classifier=classifier_dict, 
+                                        stopwords=custom_stopwords).to_image()
+          return html.Img(cloud.to_img())
+      except:
+        return 'Sorry, something went wrong.'

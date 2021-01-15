@@ -66,7 +66,7 @@ school_label_dict = {'analytic': 0,
 # search bar object
 search_bar = html.Div(id="classification-bar-container", children=
     [
-        dbc.Input(id="classification-bar", placeholder="enter text to classify", type="text"),
+        dbc.Input(id="classification-bar", placeholder="enter text to classify", type="text", n_submit=0),
         dbc.Button("SUBMIT", id="classification-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
     ])
 
@@ -74,14 +74,15 @@ search_bar = html.Div(id="classification-bar-container", children=
 layout = html.Div([
     html.H1("Text Classification"),
     search_bar,
-    html.Div(id="classification-bar-output", children=[])  
+    html.Div(id="classification-bar-output", children=[]),
 ])
 
 # callback for search bar
 @app.callback(Output(component_id="classification-bar-output", component_property="children"),
-              [Input(component_id="classification-bar-submit-button", component_property="n_clicks")],
+              [Input(component_id="classification-bar-submit-button", component_property="n_clicks"),
+              Input(component_id="classification-bar", component_property="n_submit")],
               [State(component_id="classification-bar", component_property="value")])
-def generate_explainer_html(n_clicks, text):
+def generate_explainer_html(n_clicks, n_submit, text):
     empty_obj = html.Iframe(
         srcDoc='''<div>Enter input text to see LIME explanations.</div>''',
         width='100%',
@@ -89,21 +90,25 @@ def generate_explainer_html(n_clicks, text):
         style={'border': '2px #d3d3d3 solid'},
         hidden=True,
     )
-    if n_clicks < 1 or text == '':
+    if n_clicks < 1 and n_submit < 1:
         return empty_obj
-    else:
-        class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
-        explainer = lime_text.LimeTextExplainer(class_names=class_names,
-                                                bow=False)
-        exp = explainer.explain_instance(text, 
-                                        pipeline.predict, 
-                                        num_features=10, 
-                                        labels=[0,1,2,3,4,5,6,7,8,9],
-                                        top_labels=3)
-        obj = html.Iframe(
-            srcDoc=exp.as_html(),
-            width='100%',
-            height='800px',
-            style={'border': '2px #d3d3d3 solid'},
-        )
-        return obj
+    if n_clicks > 0 or n_submit > 0:
+        try:
+                
+            class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
+            explainer = lime_text.LimeTextExplainer(class_names=class_names,
+                                                    bow=False)
+            exp = explainer.explain_instance(text, 
+                                            pipeline.predict, 
+                                            num_features=10, 
+                                            labels=[0,1,2,3,4,5,6,7,8,9],
+                                            top_labels=3)
+            obj = html.Iframe(
+                srcDoc=exp.as_html(),
+                width='100%',
+                height='800px',
+                style={'border': '2px #d3d3d3 solid'},
+            )
+            return obj
+        except:
+            print('Sorry, something went wrong.')
