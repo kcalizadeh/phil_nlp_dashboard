@@ -7,6 +7,8 @@ import string
 import re
 import plotly.express as px 
 import pandas as pd
+from nltk.collocations import BigramCollocationFinder
+
 
 stopwords_list = stopwords.words('english') + list(string.punctuation) 
 stopwords_list += ['“','”','...',"''",'’','``', "'", "‘"]
@@ -126,15 +128,15 @@ def get_num_unique_words(input, df, classifier_dict):
   num_unique_words = len(set(word_list))
   return num_unique_words, num_words
 
-def plot_word_frequency(input, df, classifier_dict):
+def plot_word_frequency(input, df, classifier_dict, stopwords):
   word_list = []
   for sentence in df[df[classifier_dict[input]]==input]['gensim_tokenized'][:50]:
     for word in sentence:
       word_list.append(word)
-  cleaned_words = [x.lower() for x in word_list if x.lower() not in custom_stopwords]
+  cleaned_words = [x.lower() for x in word_list if x.lower() not in stopwords]
   freq_dist = FreqDist(cleaned_words)
-  freq_dict = {'words': [x[0] for x in freq_dist.most_common(10)], 
-              'frequency': [x[1] for x in freq_dist.most_common(10)]}
+  freq_dict = {'words': [x[0] for x in freq_dist.most_common(7)], 
+              'frequency': [x[1] for x in freq_dist.most_common(7)]}
   freq_df = pd.DataFrame(freq_dict)
   fig = px.bar(freq_df,
               x='words',
@@ -143,3 +145,26 @@ def plot_word_frequency(input, df, classifier_dict):
   fig.update_yaxes(title_text='Count')
   fig.update_layout(title_text=f'{input.title()} Word Frequency Chart', title_x=0.5)
   return fig
+
+def plot_ngram_frequency(input, df, classifier_dict, stopwords): 
+  word_list = []
+  for sent in df[df[classifier_dict[input]]==input]['gensim_tokenized']:
+    for word in sent:
+      word_list.append(word)
+  cleaned = [word.lower() for word in word_list if word not in custom_stopwords]
+  bigram_finder = BigramCollocationFinder.from_words(cleaned, window_size=3)
+  top_10 = sorted(bigram_finder.ngram_fd.items(), key=lambda t: (-t[1], t[0]))[:7]
+  bigram_df = pd.DataFrame(top_10, columns=['bigram', 'frequency'])
+  bigram_df['bigram'] = bigram_df['bigram'].apply(lambda x: ', '.join(x))
+  fig = px.bar(bigram_df,
+              x='bigram',
+              y='frequency')
+  fig.update_xaxes(title_text='Phrases')
+  fig.update_yaxes(title_text='Count')
+  fig.update_layout(title_text=f'{input.title()} N-gram Frequency Chart', title_x=0.5)
+  return fig
+
+def get_title_list(input, df, classifier_dict):
+  title_list = list(df[df[classifier_dict[input]]==input]['title'].unique())
+  title_list = [title.title() for title in title_list] 
+  return ', '.join(title_list)

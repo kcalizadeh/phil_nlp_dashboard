@@ -2,7 +2,14 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 
-layout = [dcc.Markdown("""
+layout = [html.Div([
+    html.Img(src="assets\\athens.jpg", style={'width': '350px', 
+                                            'height': '250px', 
+                                            'align': 'right',
+                                            'display': 'inline-block'}), 
+    dcc.Markdown("""
+<img align="right" src="assets\\athens.jpg" width=240 height=250/>
+
 ### Intro asd
 Marin County California is one of the most expensive residential real estate markets in the country.  It is also
 one of the most competitive markets with more than 45% of all single-family homes in 2018
@@ -16,4 +23,6 @@ expected offers and listing price and the app will provide the predicted sales p
 As a rule of thumb, real estate agents have used anywhere from 2 to 3 percent per offer to determine the
 price to pay in a bidding war.  For example, if there are 3 offers the bid should be anywhere from 6% to
 9% over the list price.
-""")]
+""", style={'display': 'inline-block'}
+)]
+)]
