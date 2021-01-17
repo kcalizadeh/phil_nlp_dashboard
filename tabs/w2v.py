@@ -10,13 +10,19 @@ from dash.dependencies import Input, Output, State
 
 from gensim.models import KeyedVectors
 
-school_list = ['plato', 'aristotle', 'capitalism', 'communism',
+source_list = ['plato', 'aristotle', 'capitalism', 'communism',
                 'continental', 'empiricism', 'german_idealism', 
-                'phenomenology', 'rationalism', 'analytic']
+                'phenomenology', 'rationalism', 'analytic', 'Locke', 
+                'Hume', 'Berkeley', 'Spinoza','Leibniz', 'Descartes', 
+                'Malebranche', 'Russell', 'Moore', 'Wittgenstein', 
+                'Lewis', 'Quine', 'Popper', 'Kripke', 'Foucault',
+                'Derrida', 'Deleuze', 'Merleau-Ponty', 'Husserl', 
+                'Heidegger', 'Kant', 'Fichte', 'Hegel', 'Marx', 
+                'Lenin', 'Smith', 'Ricardo','Keynes']
 
 w2v_dict = {}
-for school in school_list:
-    w2v_dict[school] = KeyedVectors.load(f'model_data\w2v_models\{school}_w2v.wordvectors')
+for source in source_list:
+    w2v_dict[source] = KeyedVectors.load(f'model_data\w2v_models\{source}_w2v.wordvectors')
 w2v_dict['all'] = KeyedVectors.load('model_data\w2v_models\general_w2v.wordvectors')
 
 layout = html.Div([
