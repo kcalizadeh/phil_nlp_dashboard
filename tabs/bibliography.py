@@ -303,7 +303,11 @@ content = html.Div([
                     dcc.Markdown('#### Empiricism', id='empiricism'),
                     dcc.Markdown('##### George Berkeley', id='berkeley'),
                     dcc.Markdown('##### David Hume', id='hume'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hume, David. *A Treatise of Human Nature*. 2003. *Project Gutenberg*, [www.gutenberg.org/ebooks/4705](https://www.gutenberg.org/ebooks/4705).'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hume, David. *Dialogues Concerning Natural Religion*. 2009. *Project Gutenberg*, [www.gutenberg.org/ebooks/4583](https://www.gutenberg.org/ebooks/4583).'),
                     dcc.Markdown('##### John Locke', id='locke'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Locke, John. *An Essay Concerning Human Understanding*. 2004. *Project Gutenberg*, [www.gutenberg.org/ebooks/10615](https://www.gutenberg.org/ebooks/10615). 2 vols.'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Locke, John. *Second Treatise of Government*. 2010. *Project Gutenberg*, [www.gutenberg.org/ebooks/7370](https://www.gutenberg.org/ebooks/7370).'),
                     dcc.Markdown('#### German Idealism', id='german_idealism'),
                     dcc.Markdown('##### Johan Gottlieb Fichte', id='fichte'),
                     dcc.Markdown('##### Georg Wilhelm Friedrich Hegel', id='hegel'),
@@ -316,20 +320,22 @@ content = html.Div([
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Plato. *Complete Works*. Edited by John M. Cooper, Hacket Publishing Company, 1997.'),
                     dcc.Markdown('#### Rationalism', id='rationalism'),
                     dcc.Markdown('##### René Descartes', id='descartes'),
-                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Descartes, René. *A Discourse on Method*. Translated by John Veitch. 2008. *Project Gutenberg*, <www.gutenberg.org/ebooks/59>.'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Descartes, René. *A Discourse on Method*. Translated by John Veitch. 2008. *Project Gutenberg*, [www.gutenberg.org/ebooks/59](https://www.gutenberg.org/ebooks/59).'),
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Descartes, René. *Meditations on First Philosophy*. Translated by Michael Moriarty, Oxford University Press, 2008.'),
                     dcc.Markdown('##### G. W. Leibniz', id='leibniz'),
-                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leibniz, G.W.. *Theodicy: Essays on the Goodness of God, the Freedom of Man, and the Origin of Evil*. Translated by E.M. Huggard. 2005. *Project Gutenberg*, <www.gutenberg.org/ebooks/17147>.'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leibniz, G.W.. *Theodicy: Essays on the Goodness of God, the Freedom of Man, and the Origin of Evil*. Translated by E.M. Huggard. 2005. *Project Gutenberg*, [www.gutenberg.org/ebooks/17147](https://www.gutenberg.org/ebooks/17147).'),
                     dcc.Markdown('##### Nicolas Malebranche', id='malebranche'),
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Malebranche, Nicolas. *The Search After Truth*. Edited by Thomas M. Lennon and Paul J. Olscamp, Cambridge University Press, 1997.'),
                     dcc.Markdown('##### Baruch Spinoza', id='spinoza'),
-                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spinoza, Benedict de. *Ethics*. Translated by R.H.M. Elwes. 2003. *Project Gutenberg*, <www.gutenberg.org/ebooks/3800>.'),
-                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spinoza, Benedict de. *On the Improvement of the Understanding*. Translated by R.H.M. Elwes. 1997. *Project Gutenberg*, [www.gutenberg.org/ebooks/1016].'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spinoza, Benedict de. *Ethics*. Translated by R.H.M. Elwes. 2003. *Project Gutenberg*, [www.gutenberg.org/ebooks/3800](https://www.gutenberg.org/ebooks/3800).'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spinoza, Benedict de. *On the Improvement of the Understanding*. Translated by R.H.M. Elwes. 1997. *Project Gutenberg*, [www.gutenberg.org/ebooks/1016](https://www.gutenberg.org/ebooks/1016).'),
                     ], style=CONTENT_STYLE)
                     
 
 layout = html.Div([
-    dcc.Location(id="url"), sidebar, content
+    dcc.Location(id="url"), 
+    sidebar, 
+    content
     ])
 
 # this function is used to toggle the is_open property of each Collapse
