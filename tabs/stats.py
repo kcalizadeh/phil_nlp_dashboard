@@ -7,10 +7,7 @@ import pandas as pd
 from dash.dependencies import Input, Output, State
 import matplotlib.pyplot as plt
 import wordcloud
-import nltk 
-nltk.download('stopwords')
-from nltk import FreqDist
-from nltk.corpus import stopwords
+import pickle
 import string
 import plotly.express as px
 from gensim.utils import simple_preprocess
@@ -18,9 +15,12 @@ from gensim.utils import simple_preprocess
 from app import app
 from tabs.stats_functions import *
 
-df = pd.read_csv('model_data/phil_nlp.csv')
-df['gensim_tokenized'] = df['sentence_str'].map(lambda x: simple_preprocess(x.lower(),deacc=True,
-                                                        max_len=250))
+# df = pd.read_csv('model_data/phil_nlp.csv')
+# df['gensim_tokenized'] = df['sentence_str'].map(lambda x: simple_preprocess(x.lower(),deacc=True,
+#                                                         max_len=250))
+
+with open('stats_dict.pkl', 'rb') as st_dict:
+  stats_dict = pickle.load(st_dict)
 
 search_bar = html.Div(id="w2v-bar-container", children=
     [
@@ -93,25 +93,30 @@ def generate_stats_1(selection_value, checkbox_values, df=df, classifier_dict=cl
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
     if classifier_dict[selection_value] != 'title':
-      title_list = get_title_list(selection_value, df, classifier_dict)
+      # title_list = get_title_list(selection_value, df, classifier_dict)
+      title_list = stats_dict[selection_value]['title_list']
       output_statement = f'**Titles in the Corpus:** {title_list}.'
       output_list.append(dcc.Markdown(output_statement))
   if 'ASL' in checkbox_values and selection_value:
-    average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
+    # average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
+    average_sentence_length = stats_dict[selection_value]['mean_sent_length']
     output_statement = f'**Average Sentence Length:** {round(average_sentence_length, 2)} words'
     output_list.append(dcc.Markdown(output_statement))
   if 'AWL' in checkbox_values and selection_value:
-    average_word_length = get_average_word_length(selection_value, df, classifier_dict)
+    # average_word_length = get_average_word_length(selection_value, df, classifier_dict)
+    average_word_length = stats_dict[selection_value]['mean_word_length']
     output_statement = f'**Average Word Length:** {round(average_word_length, 2)} characters'
     output_list.append(dcc.Markdown(output_statement))
   if 'NUW' in checkbox_values and selection_value:
-    num_unique, total_num = get_num_unique_words(selection_value, df, classifier_dict)
+    # num_unique, total_num = get_num_unique_words(selection_value, df, classifier_dict)
+    num_unique, total_num = stats_dict[selection_value]['num_unique']
     output_statement = f'**{num_unique}** unique words out of **{total_num}** total words.'
     output_list.append(dcc.Markdown(output_statement))
   if 'FREQ' in checkbox_values and selection_value:
-    output_list.append(dcc.Graph(figure=plot_word_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    output_list.append(dcc.Graph(figure=stats_dict[selection_value]['word_freq_chart']))
   if 'BGRAM' in checkbox_values and selection_value:
-    output_list.append(dcc.Graph(figure=plot_ngram_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    # output_list.append(dcc.Graph(figure=plot_ngram_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    output_list.append(dcc.Graph(figure=stats_dict[selection_value]['ngram_chart']))
     output_list.append(html.Center("Note that word pairs here could be connected by any number of stopwords such as 'of' or 'the.'"))
   return output_list
 
@@ -124,25 +129,30 @@ def generate_stats_2(selection_value, checkbox_values, df=df, classifier_dict=cl
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
     if classifier_dict[selection_value] != 'title':
-      title_list = get_title_list(selection_value, df, classifier_dict)
+      # title_list = get_title_list(selection_value, df, classifier_dict)
+      title_list = stats_dict[selection_value]['title_list']
       output_statement = f'**Titles in the Corpus:** {title_list}.'
       output_list.append(dcc.Markdown(output_statement))
   if 'ASL' in checkbox_values and selection_value:
-    average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
+    # average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
+    average_sentence_length = stats_dict[selection_value]['mean_sent_length']
     output_statement = f'**Average Sentence Length:** {round(average_sentence_length, 2)} words'
     output_list.append(dcc.Markdown(output_statement))
   if 'AWL' in checkbox_values and selection_value:
-    average_word_length = get_average_word_length(selection_value, df, classifier_dict)
+    # average_word_length = get_average_word_length(selection_value, df, classifier_dict)
+    average_word_length = stats_dict[selection_value]['mean_word_length']
     output_statement = f'**Average Word Length:** {round(average_word_length, 2)} characters'
     output_list.append(dcc.Markdown(output_statement))
   if 'NUW' in checkbox_values and selection_value:
-    num_unique, total_num = get_num_unique_words(selection_value, df, classifier_dict)
+    # num_unique, total_num = get_num_unique_words(selection_value, df, classifier_dict)
+    num_unique, total_num = stats_dict[selection_value]['num_unique']
     output_statement = f'**{num_unique}** unique words out of **{total_num}** total words.'
     output_list.append(dcc.Markdown(output_statement))
   if 'FREQ' in checkbox_values and selection_value:
-    output_list.append(dcc.Graph(figure=plot_word_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    # output_list.append(dcc.Graph(figure=plot_word_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    output_list.append(dcc.Graph(figure=stats_dict[selection_value]['word_freq_chart']))
   if 'BGRAM' in checkbox_values and selection_value:
-    output_list.append(dcc.Graph(figure=plot_ngram_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    # output_list.append(dcc.Graph(figure=plot_ngram_frequency(selection_value, df, classifier_dict, custom_stopwords)))
+    output_list.append(dcc.Graph(figure=stats_dict[selection_value]['ngram_chart']))
     output_list.append(html.Center("Note that word pairs here could be connected by any number of stopwords such as 'of' or 'the.'"))
-
   return output_list
