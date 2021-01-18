@@ -95,11 +95,11 @@ layout = html.Div(
 def generate_stats_1(selection_value, checkbox_values):#, df=df, classifier_dict=classifier_dict):
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
-    if classifier_dict[selection_value] != 'title':
+    # if classifier_dict[selection_value] != 'title':
       # title_list = get_title_list(selection_value, df, classifier_dict)
-      title_list = stats_dict[selection_value]['title_list']
-      output_statement = f'**Titles in the Corpus:** {title_list}.'
-      output_list.append(dcc.Markdown(output_statement))
+    title_list = stats_dict[selection_value]['title_list']
+    output_statement = f'**Titles in the Corpus:** {title_list}.'
+    output_list.append(dcc.Markdown(output_statement))
   if 'ASL' in checkbox_values and selection_value:
     # average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
     average_sentence_length = stats_dict[selection_value]['mean_sent_length']
@@ -131,11 +131,11 @@ def generate_stats_1(selection_value, checkbox_values):#, df=df, classifier_dict
 def generate_stats_2(selection_value, checkbox_values):#, df=df, classifier_dict=classifier_dict):
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
-    if classifier_dict[selection_value] != 'title':
+    # if classifier_dict[selection_value] != 'title':
       # title_list = get_title_list(selection_value, df, classifier_dict)
-      title_list = stats_dict[selection_value]['title_list']
-      output_statement = f'**Titles in the Corpus:** {title_list}.'
-      output_list.append(dcc.Markdown(output_statement))
+    title_list = stats_dict[selection_value]['title_list']
+    output_statement = f'**Titles in the Corpus:** {title_list}.'
+    output_list.append(dcc.Markdown(output_statement))
   if 'ASL' in checkbox_values and selection_value:
     # average_sentence_length = get_average_sentence_length(selection_value, df, classifier_dict)
     average_sentence_length = stats_dict[selection_value]['mean_sent_length']
