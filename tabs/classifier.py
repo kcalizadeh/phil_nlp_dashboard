@@ -66,15 +66,19 @@ school_label_dict = {'analytic': 0,
 # search bar object
 search_bar = html.Div(id="classification-bar-container", children=
     [
-        dbc.Input(id="classification-bar", placeholder="enter text to classify", type="text", n_submit=0),
+        dcc.Textarea(id="classification-bar", placeholder="enter text to classify", 
+                    type="text", n_submit=0,
+                    style={'width': '90%', 'height': 300},),
         dbc.Button("SUBMIT", id="classification-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
     ])
 
 
 layout = html.Div([
     html.H1("Text Classification"),
-    search_bar,
-    html.Div(id="classification-bar-output", children=[]),
+    dbc.Row([
+        dbc.Col(search_bar),
+        dbc.Col(html.Div(id="classification-bar-output", children=[]))
+    ]),
 ])
 
 # callback for search bar
