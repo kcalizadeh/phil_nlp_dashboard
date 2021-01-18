@@ -6,7 +6,6 @@ astunparse==1.6.3
 async-timeout==3.0.1
 attrs==19.3.0
 backports.functools-lru-cache==1.6.1
-beautifulsoup4==4.8.2
 
 blis==0.7.4
 branca==0.4.1

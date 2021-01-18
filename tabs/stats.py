@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output, State
 import matplotlib.pyplot as plt
 import wordcloud
 import pickle
+from nltk.corpus import stopwords
 import string
 import plotly.express as px
 from gensim.utils import simple_preprocess
@@ -18,9 +19,11 @@ from tabs.stats_functions import *
 # df = pd.read_csv('model_data/phil_nlp.csv')
 # df['gensim_tokenized'] = df['sentence_str'].map(lambda x: simple_preprocess(x.lower(),deacc=True,
 #                                                         max_len=250))
-
-with open('stats_dict.pkl', 'rb') as st_dict:
+with open('model_data/stats_dict.pkl', 'rb') as st_dict:
   stats_dict = pickle.load(st_dict)
+
+with open('model_data/classifier.pkl', 'rb') as class_dict:
+  classifier_dict = pickle.load(class_dict)
 
 search_bar = html.Div(id="w2v-bar-container", children=
     [
@@ -28,13 +31,13 @@ search_bar = html.Div(id="w2v-bar-container", children=
                     options=get_dropdown_list_stats())
     ])
 
-classifier_dict = {}
-for author in df['author'].unique():
-  classifier_dict[author] = 'author'
-for title in df['title'].unique():
-  classifier_dict[title] = 'title'
-for school in df['school'].unique():
-  classifier_dict[school] = 'school'
+# classifier_dict = {}
+# for author in df['author'].unique():
+#   classifier_dict[author] = 'author'
+# for title in df['title'].unique():
+#   classifier_dict[title] = 'title'
+# for school in df['school'].unique():
+#   classifier_dict[school] = 'school'
 
 stopwords_list = stopwords.words('english') + list(string.punctuation) 
 stopwords_list += ['“','”','...',"''",'’','``', "'", "‘"]
@@ -89,7 +92,7 @@ layout = html.Div(
 @app.callback(Output(component_id="stats-output-1", component_property="children"),
               [Input(component_id="stats-selection_1", component_property="value"),
               Input(component_id='stats-options_1', component_property="value")])
-def generate_stats_1(selection_value, checkbox_values, df=df, classifier_dict=classifier_dict):
+def generate_stats_1(selection_value, checkbox_values):#, df=df, classifier_dict=classifier_dict):
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
     if classifier_dict[selection_value] != 'title':
@@ -125,7 +128,7 @@ def generate_stats_1(selection_value, checkbox_values, df=df, classifier_dict=cl
 @app.callback(Output(component_id="stats-output-2", component_property="children"),
               [Input(component_id="stats-selection_2", component_property="value"),
               Input(component_id='stats-options_2', component_property="value")])
-def generate_stats_2(selection_value, checkbox_values, df=df, classifier_dict=classifier_dict):
+def generate_stats_2(selection_value, checkbox_values):#, df=df, classifier_dict=classifier_dict):
   output_list = [html.Br()]
   if 'TXTS' in checkbox_values and selection_value:
     if classifier_dict[selection_value] != 'title':
