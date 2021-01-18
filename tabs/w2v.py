@@ -20,10 +20,10 @@ source_list = ['plato', 'aristotle', 'capitalism', 'communism',
                 'Heidegger', 'Kant', 'Fichte', 'Hegel', 'Marx', 
                 'Lenin', 'Smith', 'Ricardo','Keynes']
 
-w2v_dict = {}
-for source in source_list:
-    w2v_dict[source] = KeyedVectors.load(f'model_data\w2v_models\{source}_w2v.wordvectors')
-w2v_dict['all'] = KeyedVectors.load('model_data\w2v_models\general_w2v.wordvectors')
+# w2v_dict = {}
+# for source in source_list:
+#     w2v_dict[source] = KeyedVectors.load(f'model_data\w2v_models\{source}_w2v.wordvectors')
+# w2v_dict['all'] = KeyedVectors.load('model_data\w2v_models\general_w2v.wordvectors')
 
 layout = html.Div([
   html.H1('Word Similarity'),
@@ -70,56 +70,56 @@ layout = html.Div([
   ])
 ])
 
-@app.callback(Output(component_id="w2v-output-1", component_property="children"),
-              [Input(component_id="w2v-submit-button-1", component_property="n_clicks"),
-              Input(component_id="w2v-text-bar-1", component_property="n_submit"),
-              Input(component_id='w2v-selection-1', component_property='value')],
-              [State(component_id="w2v-text-bar-1", component_property="value")])
-def generate_similarity_1(n_clicks, n_submit, source_selection, word):
-    if n_clicks < 1 and n_submit < 1:
-      return None
-    else:
-      try:
-        similar_words = w2v_dict[source_selection].most_similar(word.lower())
-        heading = f'Words Most Similar to {word.title()}  '
-        formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
-        head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
-        return head_and_list
-      except:
-        return 'Sorry, that word or phrase is not in the vocabulary'
+# @app.callback(Output(component_id="w2v-output-1", component_property="children"),
+#               [Input(component_id="w2v-submit-button-1", component_property="n_clicks"),
+#               Input(component_id="w2v-text-bar-1", component_property="n_submit"),
+#               Input(component_id='w2v-selection-1', component_property='value')],
+#               [State(component_id="w2v-text-bar-1", component_property="value")])
+# def generate_similarity_1(n_clicks, n_submit, source_selection, word):
+#     if n_clicks < 1 and n_submit < 1:
+#       return None
+#     else:
+#       try:
+#         similar_words = w2v_dict[source_selection].most_similar(word.lower())
+#         heading = f'Words Most Similar to {word.title()}  '
+#         formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
+#         head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
+#         return head_and_list
+#       except:
+#         return 'Sorry, that word or phrase is not in the vocabulary'
 
-@app.callback(Output(component_id="w2v-output-2", component_property="children"),
-              [Input(component_id="w2v-submit-button-2", component_property="n_clicks"),
-              Input(component_id="w2v-text-bar-2", component_property="n_submit"),
-              Input(component_id='w2v-selection-2', component_property='value')],
-              [State(component_id="w2v-text-bar-2", component_property="value")])
-def generate_similarity_1(n_clicks, n_submit, source_selection, word):
-    if n_clicks < 1 and n_submit < 1:
-      return None
-    else:
-      try:
-        similar_words = w2v_dict[source_selection].most_similar(word.lower())
-        heading = f'Words Most Similar to {word.title()}  '
-        formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
-        head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
-        return head_and_list
-      except:
-        return 'Sorry, that word or phrase is not in the vocabulary'
+# @app.callback(Output(component_id="w2v-output-2", component_property="children"),
+#               [Input(component_id="w2v-submit-button-2", component_property="n_clicks"),
+#               Input(component_id="w2v-text-bar-2", component_property="n_submit"),
+#               Input(component_id='w2v-selection-2', component_property='value')],
+#               [State(component_id="w2v-text-bar-2", component_property="value")])
+# def generate_similarity_1(n_clicks, n_submit, source_selection, word):
+#     if n_clicks < 1 and n_submit < 1:
+#       return None
+#     else:
+#       try:
+#         similar_words = w2v_dict[source_selection].most_similar(word.lower())
+#         heading = f'Words Most Similar to {word.title()}  '
+#         formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
+#         head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
+#         return head_and_list
+#       except:
+#         return 'Sorry, that word or phrase is not in the vocabulary'
 
-@app.callback(Output(component_id="w2v-output-3", component_property="children"),
-              [Input(component_id="w2v-submit-button-3", component_property="n_clicks"),
-              Input(component_id="w2v-text-bar-3", component_property="n_submit"),
-              Input(component_id='w2v-selection-3', component_property='value')],
-              [State(component_id="w2v-text-bar-3", component_property="value")])
-def generate_similarity_1(n_clicks, n_submit, source_selection, word):
-    if n_clicks < 1 and n_submit < 1:
-      return None
-    else:
-      try:
-        similar_words = w2v_dict[source_selection].most_similar(word.lower())
-        heading = f'Words Most Similar to {word.title()}  '
-        formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
-        head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
-        return head_and_list
-      except:
-        return 'Sorry, that word or phrase is not in the vocabulary'
+# @app.callback(Output(component_id="w2v-output-3", component_property="children"),
+#               [Input(component_id="w2v-submit-button-3", component_property="n_clicks"),
+#               Input(component_id="w2v-text-bar-3", component_property="n_submit"),
+#               Input(component_id='w2v-selection-3', component_property='value')],
+#               [State(component_id="w2v-text-bar-3", component_property="value")])
+# def generate_similarity_1(n_clicks, n_submit, source_selection, word):
+#     if n_clicks < 1 and n_submit < 1:
+#       return None
+#     else:
+#       try:
+#         similar_words = w2v_dict[source_selection].most_similar(word.lower())
+#         heading = f'Words Most Similar to {word.title()}  '
+#         formatted = [f'{x[0].title()} - {round(x[1], 3)}  ' for x in similar_words]
+#         head_and_list = [dcc.Markdown([heading]), dcc.Markdown(formatted)]
+#         return head_and_list
+#       except:
+#         return 'Sorry, that word or phrase is not in the vocabulary'

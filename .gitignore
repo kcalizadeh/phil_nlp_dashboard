@@ -4,3 +4,8 @@ __init__.py
 model_data/phil_nlp.csv
 test.py
 tabs/test.ipynb
+
+
+model_data/w2v_models/*
+model_data\w2v_models\*
+/model_data/w2v_models/*
