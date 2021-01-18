@@ -5,7 +5,6 @@ astroid==2.4.2
 astunparse==1.6.3
 async-timeout==3.0.1
 attrs==19.3.0
-backcall @ file:///home/conda/feedstock_root/build_artifacts/backcall_1592338393461/work
 backports.functools-lru-cache==1.6.1
 beautifulsoup4==4.8.2
 bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1588608214987/work
