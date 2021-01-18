@@ -66,9 +66,11 @@ school_label_dict = {'analytic': 0,
 # search bar object
 search_bar = html.Div(id="classification-bar-container", children=
     [
-        dcc.Textarea(id="classification-bar", placeholder="enter text to classify", 
-                    type="text", n_submit=0,
-                    style={'width': '90%', 'height': 300},),
+        dcc.Textarea(id="classification-bar", 
+                    placeholder="enter text to classify - the more you can provide, the more accurate the classification will be.",
+                    # type='text',
+                    # n_submit=0,
+                    style={'width': '100%', 'height': 500},),
         dbc.Button("SUBMIT", id="classification-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
     ])
 
@@ -76,8 +78,8 @@ search_bar = html.Div(id="classification-bar-container", children=
 layout = html.Div([
     html.H1("Text Classification"),
     dbc.Row([
-        dbc.Col(search_bar),
-        dbc.Col(html.Div(id="classification-bar-output", children=[]))
+        dbc.Col(search_bar, width=5),
+        dbc.Col(html.Div(id="classification-bar-output", children=[]), width=7)
     ]),
 ])
 
@@ -88,15 +90,15 @@ layout = html.Div([
               [State(component_id="classification-bar", component_property="value")])
 def generate_explainer_html(n_clicks, n_submit, text):
     empty_obj = html.Iframe(
-        srcDoc='''<div>Enter input text to see LIME explanations.</div>''',
+        srcDoc='''<div>Enter input text to see classification with explanation.</div>''',
         width='100%',
-        height='100px',
+        height='600px',
         style={'border': '2px #d3d3d3 solid'},
         hidden=True,
     )
-    if n_clicks < 1 and n_submit < 1:
-        return empty_obj
-    if n_clicks > 0 or n_submit > 0:
+    if n_clicks < 1: #and n_submit < 1:
+        return 'Your text will be explained here'
+    if n_clicks > 0:# or n_submit > 0:
         try:
                 
             class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]

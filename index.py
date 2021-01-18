@@ -24,7 +24,7 @@ style = {'maxWidth': '90%', 'margin': 'auto'}
 app.layout = html.Div([
     dcc.Markdown('# Philosophy Text Analysis'),
     dcc.Tabs(id='tabs', value='tab-about', children=[
-        dcc.Tab(label='About', value='tab-about'),
+        # dcc.Tab(label='About', value='tab-about'),
         dcc.Tab(label='Classifier', value='tab-classifier'),
         dcc.Tab(label='Text Stats', value='tab-stats'),
         dcc.Tab(label='Word Meanings', value='tab-w2v'),
@@ -36,7 +36,7 @@ app.layout = html.Div([
 @app.callback(Output('tabs-content', 'children'),
               [Input('tabs', 'value')])
 def render_content(tab):
-    if tab == 'tab-about': return about.layout
+    if tab == 'tab-about': return classifier.layout
     elif tab == 'tab-bibliography': return bibliography.layout
     # elif tab == 'tab-contact': return contact.layout
     elif tab == 'tab-stats': return stats.layout

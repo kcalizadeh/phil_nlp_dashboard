@@ -284,7 +284,7 @@ content = html.Div([
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kripke, Saul A. *Naming and Necessity*. Basil Blackwell Ltd, 1990.'),
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kripke, Saul A. *Philosophical Troubles: Collected Papers*. Oxford University Press, 2011. vol 1.'),
                     dcc.Markdown('##### David Lewis', id='lewis'),
-                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c'),
+                    dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lewis, David. *Philosophical Papers*. Oxford University Press, 2008. 2 vols.'),
                     dcc.Markdown('##### G. E. Moore', id='moore'),
                     dcc.Markdown('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Moore, G. E. *Philosophical Studies*. 2015. *Project Gutenberg*, [www.gutenberg.org/ebooks/50141](https://www.gutenberg.org/ebooks/50141).'),
                     dcc.Markdown('##### Karl Popper', id='popper'),
