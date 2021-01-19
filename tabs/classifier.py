@@ -41,6 +41,15 @@ class Padder(BaseEstimator, TransformerMixin):
         X = pad_sequences(X, maxlen=self.maxlen)
         return X
 
+keys = get_keys('api_keys.json')
+consumer_key = keys['tw_consumer_key']
+consumer_secret = keys['tw_consumer_secret']
+access_token = keys['tw_access_token']
+access_secret = keys['tw_access_secret']
+bearer_token = keys['bearer_token']
+access_key = keys['s3_access_key']
+secret = keys['s3_secret_key']
+
 model_path = 'model_data\classification_models\\NN_weights_epoch_09_0.7928.hdf5'
 model = load_model(model_path)
 
@@ -64,12 +73,7 @@ school_label_dict = {'analytic': 0,
  'plato': 8,
  'rationalism': 9}
 
-keys = get_keys('api_keys.json')
-consumer_key = keys['tw_consumer_key']
-consumer_secret = keys['tw_consumer_secret']
-access_token = keys['tw_access_token']
-access_secret = keys['tw_access_secret']
-bearer_token = keys['bearer_token']
+
 
 auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)

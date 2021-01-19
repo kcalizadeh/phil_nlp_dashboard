@@ -4,4 +4,5 @@ __init__.py
 model_data/phil_nlp.csv
 test.py
 tabs/test.ipynb
+tabs/stats_dict_maker.ipynb
 api_keys.json

@@ -73,7 +73,7 @@ lime==0.2.0.1
 # lxml==4.5.2
 Markdown==3.3.3
 # MarkupSafe==1.1.1
-matplotlib==3.1.1
+# matplotlib==3.1.1
 # mccabe==0.6.1
 
 # networkx==2.5
@@ -109,7 +109,7 @@ plotly==4.1.1
 # python-dateutil==2.8.1
 # python-dotenv==0.14.0
 # pytz==2020.1
-
+boto==1.16.56
 # pywin32==227
 # pywinpty==0.5.7
 # PyYAML==5.3.1

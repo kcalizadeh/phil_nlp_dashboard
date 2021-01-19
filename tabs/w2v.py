@@ -10,6 +10,12 @@ from dash.dependencies import Input, Output, State
 
 from gensim.models import KeyedVectors
 
+# get keys for loading the models from s3
+keys = get_keys('api_keys.json')
+username = keys['s3_username']
+access_key = keys['s3_access_key']
+secret = keys['s3_secret_key']
+
 source_list = ['plato', 'aristotle', 'capitalism', 'communism',
                 'continental', 'empiricism', 'german_idealism', 
                 'phenomenology', 'rationalism', 'analytic', 'Locke', 
@@ -20,10 +26,14 @@ source_list = ['plato', 'aristotle', 'capitalism', 'communism',
                 'Heidegger', 'Kant', 'Fichte', 'Hegel', 'Marx', 
                 'Lenin', 'Smith', 'Ricardo','Keynes']
 
+
 w2v_dict = {}
 for source in source_list:
-    w2v_dict[source] = KeyedVectors.load(f'model_data\w2v_models\{source}_w2v.wordvectors')
-w2v_dict['all'] = KeyedVectors.load('model_data\w2v_models\general_w2v.wordvectors')
+    end_url = f"@philosophydata/w2v_models/{source}_w2v.wordvectors"
+    url = 's3://' + access_key + ":" + secret + end_url
+    w2v_dict[source] = KeyedVectors.load(url)
+all_url = 's3://' + access_key + ":" + secret + "@philosophydata/w2v_models/general_w2v.wordvectors"
+w2v_dict['all'] = KeyedVectors.load(url)
 
 layout = html.Div([
   html.H1('Word Similarity'),

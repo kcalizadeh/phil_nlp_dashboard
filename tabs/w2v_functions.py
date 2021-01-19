@@ -1,3 +1,5 @@
+import json
+
 def get_dropdown_list_w2v():
     dropdown_list = [
       {'label': 'Plato', 'value': 'plato'},
@@ -41,3 +43,9 @@ def get_dropdown_list_w2v():
       {'label': 'Keynes', 'value': 'Keynes'}
       ]
     return dropdown_list
+
+
+def get_keys(path):
+    with open(path) as f:
+        return json.load(f)
+

@@ -13,6 +13,9 @@ consumer_secret = keys['tw_consumer_secret']
 access_token = keys['tw_access_token']
 access_secret = keys['tw_access_secret']
 bearer_token = keys['bearer_token']
+username = keys['s3_username']
+access_key = keys['s3_access_key']
+secret = keys['s3_secret_key']
 
 auth = tw.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
@@ -20,7 +23,7 @@ api = tw.API(auth)
 
 def get_tweet_text(api, username):
     tweets = api.user_timeline(screen_name=username, 
-                           count=100,
+                           count=200,
                            include_rts = False,
                            tweet_mode = 'extended')
     text_list = []
@@ -39,3 +42,8 @@ def clean_text_for_explaining(text):
     for item in remove_list:
         text = re.sub(r''+item+'', ' ', text)   
     return text
+
+
+
+
+
