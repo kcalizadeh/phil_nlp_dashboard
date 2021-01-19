@@ -94,10 +94,10 @@ twitter_bar = html.Div(id="twitter-bar-container", children=
 search_bar = html.Div(id="classification-bar-container", children=
     [
         dcc.Textarea(id="classification-bar", 
-                    placeholder="enter text to classify - the more you can provide, the more accurate the classification will be.",
+                    placeholder="Enter text to classify - the more you can provide, the more accurate the classification will be. \n\nNote that some very common words will be removed from your submission to improve classification accuracy.",
                     # type='text',
                     # n_submit=0,
-                    style={'width': '100%', 'height': 500},),
+                    style={'width': '100%', 'height': 600},),
         dbc.Button("SUBMIT", id="classification-bar-submit-button", color="primary", className="mr-1", n_clicks=0)
     ])
 
@@ -109,17 +109,18 @@ layout = html.Div([
         dcc.Tab(label='Enter Your Own Text', value='tab-text-input'),
         dcc.Tab(label='Search for a Twitter User', value='tab-twitter')]),
     html.Div(id='classifier-tabs-content')
-    # html.H1("Text Classification"),
-    # twitter_bar,
-    # html.H3("Classification by Text"),
-    # dbc.Row([
-    #     dbc.Col(search_bar, width=5),
-    #     dbc.Col(html.Div(id="output", children=[html.Div(id='classification-bar-output', children=[]),
-    #                                             html.Div(id='twitter-bar-output', children=[])
-    #                                             ]
-    #                     ),
-    #              width=7),
 ])
+
+@app.callback(Output('classifier-tabs-content', 'children'),
+              [Input('classifier-tabs', 'value')])
+def render_content(tab):
+    if tab == 'tab-twitter': return [html.Br(), 
+                                    twitter_bar, html.Div(id='twitter-bar-output', children=[])]
+    if tab == 'tab-text-input': return [html.Br(), html.H3("Classification by Text"),
+                                            dbc.Row([
+                                                    dbc.Col(search_bar, width=5),
+                                                    dbc.Col(html.Div(id="output", children=[html.Div(id='classification-bar-output', children=[])]))
+                                                    ])]     
 
 # callback for twitter search bar
 @app.callback(Output(component_id="twitter-bar-output", component_property="children"),
@@ -131,7 +132,8 @@ def generate_explainer_html(n_clicks, n_submit, username, api=api):
         return [html.Br(), html.P('The classification can take some time. Please be patient, and your text classification will appear here when it is ready.')]
     if n_clicks > 0 or n_submit > 0:
         try:
-            text = get_tweet_text(api, username)    
+            tweets = get_tweet_text(api, username)   
+            text = clean_text_for_explaining(tweets)
             class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
             explainer = lime_text.LimeTextExplainer(class_names=class_names,
                                                     bow=False,
@@ -163,7 +165,7 @@ def generate_explainer_html(n_clicks, n_submit, text):
         return 'The classification can take some time. Please be patient, and your text classification will appear here when it is ready.' 
     if n_clicks > 0:# or n_submit > 0:
         try:
-                
+            text = clean_text_for_explaining(text)    
             class_names = [name.replace('_', ' ').title() for name in list(school_label_dict.keys())]
             explainer = lime_text.LimeTextExplainer(class_names=class_names,
                                                     bow=False,
@@ -176,7 +178,7 @@ def generate_explainer_html(n_clicks, n_submit, text):
             obj = html.Iframe(
                 srcDoc=exp.as_html(),
                 width='100%',
-                height='800px',
+                height='600px',
                 style={'border': '2px #d3d3d3 solid'},
             )
             return obj
@@ -184,13 +186,4 @@ def generate_explainer_html(n_clicks, n_submit, text):
             return 'Sorry, something went wrong.'
 
 
-@app.callback(Output('classifier-tabs-content', 'children'),
-              [Input('classifier-tabs', 'value')])
-def render_content(tab):
-    if tab == 'tab-twitter': return [html.Br(), 
-                                    twitter_bar, html.Div(id='twitter-bar-output', children=[])]
-    elif tab == 'tab-text-input': return [html.Br(), html.H3("Classification by Text"),
-                                            dbc.Row([
-                                                    dbc.Col(search_bar, width=5),
-                                                    dbc.Col(html.Div(id="output", children=[html.Div(id='classification-bar-output', children=[])]))
-                                                    ])]                                                    
+                                               

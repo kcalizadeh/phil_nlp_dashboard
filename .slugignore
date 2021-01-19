@@ -1,0 +1,3 @@
+*.wordvectors
+*.hdf5
+/model_data/classification_models/*
