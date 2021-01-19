@@ -10,11 +10,11 @@ from tensorflow.keras.models import load_model
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import make_pipeline
 
-from keras.preprocessing.sequence import pad_sequences
+# from keras.preprocessing.sequence import pad_sequences
 
-import lime
-from lime import lime_text
-from lime.lime_text import LimeTextExplainer
+# import lime
+# from lime import lime_text
+# from lime.lime_text import LimeTextExplainer
 
 from app import app, server
 from tabs import about, bibliography, classifier, contact, stats, w2v
@@ -36,11 +36,11 @@ app.layout = html.Div([
 @app.callback(Output('tabs-content', 'children'),
               [Input('tabs', 'value')])
 def render_content(tab):
-    if tab == 'tab-about': return classifier.layout
+    if tab == 'tab-about': return stats.layout# classifier.layout
     elif tab == 'tab-bibliography': return bibliography.layout
     # elif tab == 'tab-contact': return contact.layout
     elif tab == 'tab-stats': return stats.layout
-    elif tab == 'tab-classifier': return classifier.layout
+    # elif tab == 'tab-classifier': return classifier.layout
     elif tab == 'tab-w2v': return w2v.layout
 
 if __name__ == '__main__':

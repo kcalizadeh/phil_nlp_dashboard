@@ -2,3 +2,7 @@
 *.hdf5
 *.csv
 *.json
+tabs/classifier.py
+tabs/classifier_functions.py
+model/data/classification_models/*
+
