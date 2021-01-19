@@ -1,3 +1,4 @@
 *.wordvectors
 *.hdf5
-/model_data/classification_models/*
+*.csv
+*.json
