@@ -2,5 +2,8 @@
 *.hdf5
 *.csv
 *.json
-
+tabs/classifier_functions.py
+tabs/classifier.py
+tabs/about.py
+tabs/contact.py
 .git
