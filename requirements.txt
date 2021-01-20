@@ -49,7 +49,7 @@ gensim==3.8.3
 # grpcio==1.33.1
 gunicorn==20.0.4
 # gym==0.17.2
-h5py==2.10.0
+# h5py==2.10.0
 
 # idna-ssl==1.1.0
 # imageio==2.9.0
@@ -66,10 +66,10 @@ h5py==2.10.0
 # jedi==0.17.0
 # Jinja2==2.11.2
 # Keras==2.4.3
-Keras-Preprocessing==1.1.2
+# Keras-Preprocessing==1.1.2
 # kiwisolver==1.2.0
 # lazy-object-proxy==1.4.3
-lime==0.2.0.1
+# lime==0.2.0.1
 # lxml==4.5.2
 # Markdown==3.3.3
 # MarkupSafe==1.1.1
@@ -118,7 +118,7 @@ plotly==4.1.1
 # retrying==1.3.3
 # rsa==4.6
 # scikit-image==0.17.2
-scikit-learn==0.23.2
+# scikit-learn==0.23.2
 # seaborn==0.10.0
 # # Send2Trash==1.5.0
 # six==1.15.0
@@ -131,7 +131,7 @@ scikit-learn==0.23.2
 # symspellpy==6.7.0
 # tensorboard==2.3.0
 # tensorboard-plugin-wit==1.7.0
-tensorflow==2.3.1
+# tensorflow==2.3.1
 # tensorflow-estimator==2.3.0
 # termcolor==1.1.0
 # terminado==0.8.3
@@ -143,7 +143,7 @@ tensorflow==2.3.1
 # tornado==5.1.1
 # # tqdm==4.50.2
 # # traitlets==4.3.3
-tweepy==3.9.0
+# tweepy==3.9.0
 # typed-ast==1.4.1
 # typing-extensions==3.7.4.3
 # tzlocal==2.1
@@ -160,4 +160,4 @@ tweepy==3.9.0
 # xlrd==1.2.0
 # yarl==1.6.0
 # zipp==3.1.0
-idna==2.6
+# idna==2.6

@@ -25,7 +25,7 @@ app.layout = html.Div([
     dcc.Markdown('# Philosophy Text Analysis'),
     dcc.Tabs(id='tabs', value='tab-about', children=[
         # dcc.Tab(label='About', value='tab-about'),
-        dcc.Tab(label='Classifier', value='tab-classifier'),
+        # dcc.Tab(label='Classifier', value='tab-classifier'),
         dcc.Tab(label='Text Stats', value='tab-stats'),
         dcc.Tab(label='Word Meanings', value='tab-w2v'),
         dcc.Tab(label='Bibliography', value='tab-bibliography'),]
