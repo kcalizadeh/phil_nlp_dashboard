@@ -5,4 +5,4 @@
 tabs/classifier.py
 tabs/classifier_functions.py
 model_data/classification_models/*
-
+.git

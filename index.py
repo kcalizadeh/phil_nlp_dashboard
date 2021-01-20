@@ -6,7 +6,7 @@ import plotly.express as px
 import pickle
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import make_pipeline
 
@@ -36,11 +36,11 @@ app.layout = html.Div([
 @app.callback(Output('tabs-content', 'children'),
               [Input('tabs', 'value')])
 def render_content(tab):
-    if tab == 'tab-about': return stats.layout# classifier.layout
+    if tab == 'tab-about': return classifier.layout
     elif tab == 'tab-bibliography': return bibliography.layout
     # elif tab == 'tab-contact': return contact.layout
     elif tab == 'tab-stats': return stats.layout
-    # elif tab == 'tab-classifier': return classifier.layout
+    elif tab == 'tab-classifier': return classifier.layout
     elif tab == 'tab-w2v': return w2v.layout
 
 if __name__ == '__main__':
