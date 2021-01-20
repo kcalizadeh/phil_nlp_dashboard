@@ -17,7 +17,7 @@ from sklearn.pipeline import make_pipeline
 # from lime.lime_text import LimeTextExplainer
 
 from app import app, server
-from tabs import about, bibliography, classifier, contact, stats, w2v
+from tabs import stats, w2v, bibliography
 
 style = {'maxWidth': '90%', 'margin': 'auto'}
 
